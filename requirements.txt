@@ -1,3 +1,5 @@
 FastAPI
 uvicorn
 SQLAlchemy
+passlib
+bcrypt
