@@ -13,7 +13,7 @@ class DbUser(Base):
     items = relationship('DbArticle', back_populates='user')
 
 class DbArticle(Base):
-    __tablename___ = 'articles'
+    __tablename__ = 'articles'
     id= Column(Integer, primary_key=True, index=True)
     title = Column(String)
     content = Column(String)

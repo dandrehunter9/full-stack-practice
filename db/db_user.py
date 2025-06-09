@@ -2,6 +2,7 @@ from db.hash import Hash
 from sqlalchemy.orm.session import Session
 from schemas import UserBase
 from db.models import DbUser
+from fastapi import HTTPException, status
 
 def create_user(db: Session, request: UserBase):
     new_user = DbUser(
@@ -18,11 +19,18 @@ def get_all_users(db: Session):
     return db.query(DbUser).all()
 
 def get_user(db: Session, id: int):
-    return db.query(DbUser).filter(DbUser.id == id).first()
+    user = db.query(DbUser).filter(DbUser.id == id).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f'user with id {id} is not found')
+    return user
 
 def update_user(db: Session, id: int, request: UserBase):
     user = db.query(DbUser).filter(DbUser.id == id)
     # handle any exceptions
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f'user with id {id} is not found')
     user.update({
         DbUser.username: request.username,
         DbUser.email: request.email,
