@@ -3,7 +3,7 @@ from schemas import ArticleBase, ArticleDisplay
 from fastapi import FastAPI, APIRouter, Depends
 from sqlalchemy.orm import Session
 from db.database import get_db
-from db import db_article
+from db import db_article 
 
 router = APIRouter(
     prefix='/article',
