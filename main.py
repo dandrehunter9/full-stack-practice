@@ -3,10 +3,8 @@ from fastapi.responses import JSONResponse, PlainTextResponse
 from db.database import engine
 from enum import Enum
 from typing import Optional
-from router import blog_get
-from router import blog_post
-from router import user
-from router import article, product
+from router import blog_get, blog_post, user, article, product
+from auth import authentication
 from db import models
 from exceptions import StoryException
 
@@ -16,6 +14,7 @@ app.include_router(blog_post.router)
 app.include_router(user.router)
 app.include_router(article.router)
 app.include_router(product.router)
+app.include_router(authentication.router)
 
 @app.get('/')
 def index():

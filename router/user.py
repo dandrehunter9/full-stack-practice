@@ -1,4 +1,5 @@
 from fastapi import APIRouter, FastAPI, Depends
+from auth.oauth2 import get_current_user
 from schemas import UserBase
 from schemas import UserDisplay
 from sqlalchemy.orm import Session
@@ -29,11 +30,11 @@ def get_user(id: int, db: Session = Depends(get_db)):
 
 # update user
 @router.post('/{id}/update')
-def update_user(id: int, request: UserBase, db: Session = Depends(get_db)):
+def update_user(id: int, request: UserBase, db: Session = Depends(get_db), current_user: UserBase = Depends(get_current_user)):
     return db_user.update_user(db, id, request)
 
 #delete user
 @router.post('/{id}/delete')
-def delete_user(id: int, db: Session = Depends(get_db)):
+def delete_user(id: int, db: Session = Depends(get_db), current_user: UserBase = Depends(get_current_user)):
     return db_user.delete_user(db, id)
     
